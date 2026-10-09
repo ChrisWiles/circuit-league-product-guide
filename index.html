@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Circuit League Product Guide</title>
 <meta name="description" content="How Circuit League works for players, venues and the Circuit team: matchmaking, scoring, ratings, boards, safety and launch plan.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 <header class="topbar">
@@ -30,6 +30,7 @@
       <a href="#launch">Launch</a>
       <a href="#open">Open questions</a>
     </nav>
+    <details class="jump" id="jump"><summary>Sections</summary><div class="jump-panel"><a href="#overview">Overview</a><a href="#journey">Journey</a><a href="#setup">Setup</a><a href="#matchmaking">Matchmaking</a><a href="#match-found">Match found</a><a href="#play">Play &amp; score</a><a href="#rating">Rating</a><a href="#boards">Boards</a><a href="#teams">Teams &amp; venues</a><a href="#safety">Safety</a><a href="#notifications">Notifications</a><a href="#growth">Growth</a><a href="#later">After launch</a><a href="#ops">Operations</a><a href="#launch">Launch</a><a href="#open">Open questions</a></div></details>
     <button class="theme-btn" id="theme" type="button" aria-label="Toggle light and dark theme">Theme</button>
   </div>
 </header>
@@ -316,6 +317,7 @@
     <rect class="no" x="580" y="170" width="150" height="50" rx="12"/><text x="655" y="192" text-anchor="middle" font-weight="700" font-size="13">No result / voided</text><text class="sub" x="655" y="208" text-anchor="middle">no rating change</text>
     <path class="line" d="M275 120V166" marker-end="url(#ah)"/><path class="line" d="M465 120V166" marker-end="url(#ah)"/><path class="line" d="M655 120V166" marker-end="url(#ah)"/>
   </svg></div>
+  <p class="swipe-hint">Swipe sideways to see the whole diagram.</p>
 
   <h3>Doubles: filling the last spot</h3>
   <div class="timeline">
@@ -402,6 +404,7 @@
     <path class="line" d="M160 48H226" marker-end="url(#ah)"/><path class="line" d="M400 48H466" marker-end="url(#ah)"/><path class="line" d="M620 48H686" marker-end="url(#ah)"/>
     <path class="line" d="M85 76V148H226" marker-end="url(#ah)"/><path class="line" d="M400 148H466" marker-end="url(#ah)"/><path class="line" d="M315 176V215H466" marker-end="url(#ah)"/>
   </svg></div>
+  <p class="swipe-hint">Swipe sideways to see the whole diagram.</p>
   <ul>
     <li>While disputed, the result stays out of the rating. If players cannot agree in 24 hours, it is voided. A voided result is deleted from DUPR.</li>
     <li>In doubles, the first answer from the opposing side settles it: once either opponent confirms, the result stands and a later dispute from their partner does not count. Both sides reporting different scores opens a dispute automatically, and a dispute needs a reason.</li>
@@ -876,6 +879,15 @@
   var root = document.documentElement;
   var btn = document.getElementById('theme');
   try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  document.querySelectorAll('table').forEach(function (t) {
+    var heads = Array.prototype.map.call(t.querySelectorAll('tr:first-child th'), function (h) { return h.textContent.trim(); });
+    if (heads.length < 3) return;
+    t.querySelectorAll('tr').forEach(function (r) {
+      Array.prototype.forEach.call(r.querySelectorAll('td'), function (d, i) { if (heads[i]) d.setAttribute('data-label', heads[i]); });
+    });
+  });
+  var jump = document.getElementById('jump');
+  if (jump) jump.addEventListener('click', function (e) { if (e.target.tagName === 'A') jump.removeAttribute('open'); });
   btn.addEventListener('click', function () {
     var current = root.getAttribute('data-theme');
     if (!current) current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
