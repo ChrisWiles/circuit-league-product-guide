@@ -142,11 +142,11 @@
       <h3>Entry checks</h3>
       <div class="table-wrap"><table>
         <tr><th>Check</th><th>How it works</th></tr>
-        <tr><td>Age 18+</td><td>Uses the app store's age signal (Texas law requires it) with the DUPR birth year and the terms as backup. Under 18 is refused. Only an age band is stored, never a birth date.</td></tr>
+        <tr><td>Age 18+</td><td>Uses the app store's age signal (Texas law requires it) with the DUPR birth year and the terms as backup. If any signal says under 18, entry is refused and a junior League is planned. When signals disagree the youngest wins; when neither is available, entry is allowed under the terms. Circuit does not ask for or store a date of birth.</td></tr>
         <tr><td>DUPR linked</td><td>Required. It seeds the player's starting rating and receives every result.</td></tr>
         <tr><td>Waiver and release</td><td>Conspicuous release with express-negligence wording, Texas law, arbitration. Versioned.</td></tr>
         <tr><td>Profile photo</td><td>Required. Screened on upload by an automated safety check; reportable by anyone and hidden automatically when reported.</td></tr>
-        <tr><td>Gender and category</td><td>Taken from the Circuit profile (not DUPR), applied exactly as the published rule states, following USA Pickleball policy. "Other" plays Men's.</td></tr>
+        <tr><td>Gender and category</td><td>Taken from the Circuit profile (not DUPR), applied exactly as the published rule states, following USA Pickleball policy. A player whose profile gender is "other" states which side they are eligible for under the published rule (Men's-eligible by default). A blank gender must be filled in before choosing a category.</td></tr>
         <tr><td>Placement without DUPR rating</td><td>The player self-places as 2.5, 3.0 or "3.5 or higher". The last starts at 3.0 with the lowest confidence.</td></tr>
       </table></div>
       <h3>Setup order</h3>
@@ -201,24 +201,31 @@
   </ul>
 
   <h3>Fairness limit</h3>
-  <p>Circuit only proposes matches where the stronger side's expected win chance stays within a limit. It starts at <strong>60/40</strong> and relaxes to <strong>65/35</strong> then <strong>70/30</strong> as waiting grows.</p>
+  <p>Circuit only proposes matches inside a fairness limit, judged on the worst pairing in the match (for rotating doubles, the worst rotation). It relaxes the longer a search has waited, and never goes past 70/30 automatically.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Search age</th><th>Worst-pairing game-win split</th><th>Max rating gap between doubles players</th></tr>
+    <tr><td>First 24 hours</td><td>60/40</td><td>0.6</td></tr>
+    <tr><td>24 – 72 hours</td><td>65/35</td><td>0.8</td></tr>
+    <tr><td>After 72 hours</td><td>70/30</td><td>1.0</td></tr>
+  </table></div>
+  <p>Fixed teams are judged on the two Team ratings, so an uneven pair such as 3.8 and 3.1 is matched on team strength. Automatic widening is on by default and a player can turn it off. The search clock starts when a search starts and resets only after a confirmed match from that search; editing times or declining does not reset it.</p>
 
   <h3>Widening when no match appears</h3>
   <div class="timeline">
-    <div class="t"><b>0 – 48 hours</b>Only the player's saved times and venues, and the tightest fairness limit.</div>
-    <div class="t"><b>After 48 hours</b>Circuit offers nearby <em>other times</em> and <em>other venues</em>. These are labelled <span class="tag deferred">Outside your usual times</span>. Nothing changes until the player approves.</div>
-    <div class="t"><b>After 72 hours</b>Circuit can offer a different category, again only with approval.</div>
+    <div class="t"><b>0 – 48 hours</b>Only the player's saved times and venues, inside the fairness limit for that search age.</div>
+    <div class="t"><b>After 48 hours</b>Circuit offers <em>other times</em> (even well outside saved windows, such as 7 PM for someone who saved 4–5 PM) and <em>one extra venue</em>. These are labelled <span class="tag deferred">Outside your usual times</span>. Nothing changes until the player approves.</div>
+    <div class="t"><b>After 72 hours</b>Circuit can offer a Mixed match to a Men's or Women's doubles searcher (or the reverse), again only with approval. Singles has no Mixed. Doubles players can also pick several categories at setup, such as Women's and Mixed.</div>
   </div>
   <div class="callout warn"><p><strong>Approval is always explicit.</strong> A widening option never turns into a match by itself. Auto-accept works only inside a player's saved times and saved venues, never for an "Outside your usual times" alternative.</p></div>
 
   <h3>When pools are thin</h3>
-  <p>The League needs enough searchers to work. A simulation matched about 30% of searchers at 75 searchers, 55% at 150 and 72% at 300. The thinnest pools at launch are expected to be Women's singles, fixed Women's doubles and fixed Mixed.</p>
+  <p>The League needs enough searchers to work. A simulation of Cedar Park schedules matched about 30% of searchers within 7 days at 75 searchers, 55% at 150 and 72% at 300. The launch now spans the whole Austin area, so members are spread over more venues than that simulation assumed, and since a match needs a venue everyone chose, real rates may be lower. The thinnest pools at launch are expected to be Women's singles, fixed Women's doubles and fixed Mixed.</p>
   <div class="bars" aria-label="Simulated match rate by number of searchers">
     <div class="bar"><span>75 searchers</span><div class="track"><div class="fill" style="width:30%"></div></div><b>30%</b></div>
     <div class="bar"><span>150 searchers</span><div class="track"><div class="fill" style="width:55%"></div></div><b>55%</b></div>
     <div class="bar"><span>300 searchers</span><div class="track"><div class="fill" style="width:72%"></div></div><b>72%</b></div>
   </div>
-  <p>When a pool is small, the app says who is missing and prompts the player to invite a friend. League Nights (after launch) give players a shared time and place to help thin pools.</p>
+  <p>Circuit's answer to a small pool is growth, not looser matching: after 24 hours without a match the app says who is missing ("2 more Women's singles players near your level would get you matches") and offers an invite button. Singles players also get one-tap "Also search doubles". League Nights (after launch) give players a shared time and place to help thin pools.</p>
 </section>
 
 <!-- ============ MATCH FOUND ============ -->
@@ -232,23 +239,25 @@
       <h3>What a player can do</h3>
       <ul>
         <li><strong>Accept.</strong> When everyone accepts the same plan, the match is confirmed.</li>
-        <li><strong>Choose another time or venue.</strong> Up to 3 alternatives, some labelled "Outside your usual times". The player's own acceptance carries over to the plan they choose.</li>
+        <li><strong>Choose another time or venue.</strong> Up to 3 alternatives, some labelled "Outside your usual times". The player's own acceptance carries over to the plan they choose. The latest counter replaces any earlier one and does not extend the hold; after 3 rounds without agreement the proposal closes as "Not this time".</li>
         <li><strong>Not this time.</strong> Everyone returns to search. No penalty. Circuit does not re-offer the same group under unchanged conditions for 7 days.</li>
-        <li><strong>Hide this group.</strong> Same, for a group the player does not want to meet.</li>
+        <li><strong>Hide this group.</strong> Declines and hides that group for 7 days. After 3 hides in a row Circuit suggests reviewing search settings.</li>
         <li><strong>Chat.</strong> A match chat opens with the proposal for logistics ("where do we park?"). Agreeing a change in chat does not change the plan; someone has to send it as "Choose another time" and everyone must accept.</li>
       </ul>
       <h3>Match labels</h3>
-      <p>Each proposal shows how even the match is: <span class="m-pill">Close match</span> <span class="m-pill blue">Slight favourite</span> <span class="m-pill amber">Stretch match</span>. No numbers are shown.</p>
+      <p>The start is the best half-hour time inside everyone's saved windows, between 6 hours and 7 days ahead. Each proposal shows how even the match is: <span class="m-pill">Close match</span> <span class="m-pill blue">Slight favourite</span> <span class="m-pill amber">Stretch match</span>. No numbers are shown.</p>
       <h3>Rules that protect players</h3>
       <div class="table-wrap"><table>
         <tr><th>Rule</th><th>Detail</th></tr>
-        <tr><td>3-hour hold</td><td>Each player has 3 hours to answer. The clock pauses overnight.</td></tr>
-        <tr><td>No overnight offers</td><td>No Match found is sent 10 PM – 7 AM, or with fewer than 3 hours to answer.</td></tr>
+        <tr><td>3-hour hold</td><td>Each player has 3 hours to answer, or until 3 hours before the start if that comes sooner. No answer counts as "Not this time".</td></tr>
+        <tr><td>No overnight offers</td><td>No Match found is sent 10 PM – 7 AM in the venue's time zone, and the 3-hour clock pauses during those hours, so an offer sent at 9 PM has 1 hour that night and 2 more from 7 AM. Matches found overnight go out at 7 AM, and only if the full answer time fits before the cutoff.</td></tr>
         <tr><td>No stealing spots</td><td>A proposal holds its time and players for that group only. It cannot be overfilled.</td></tr>
         <tr><td>No clashes</td><td>The database refuses two overlapping confirmed matches for any player, even in a race.</td></tr>
         <tr><td>One at a time</td><td>Each search has at most one pending proposal. Accepting one withdraws overlapping offers without a miss.</td></tr>
-        <tr><td>Auto-accept</td><td>Optional. Accepts only inside saved times and venues.</td></tr>
-        <tr><td>Two ignored offers</td><td>The search turns off, with a push and an email, so offers do not pile up for someone who is away.</td></tr>
+        <tr><td>Auto-accept</td><td>Optional "Auto-accept matches inside my times". Accepts only a time and venue the player saved.</td></tr>
+        <tr><td>Two ignored offers</td><td>The first unanswered offer earns a warning. After the second in a row the search turns off, with a push and an email and a restart button, so offers do not pile up for someone who is away. "This match filled" is not an unanswered offer.</td></tr>
+        <tr><td>No double-booking</td><td>Each format has a planned length (60 minutes for 3 games to 11; 90 for 5 games, games to 15 or rotating Mixed; 120 for the 6-game rotating slate) plus a 30-minute buffer between commitments, and 30 more when venues differ.</td></tr>
+        <tr><td>No repeats</td><td>Circuit never proposes the same opponent as a singles player's most recent match, or the same four players as a doubles player's.</td></tr>
         <tr><td>No changes after confirmation</td><td>To change anything, cancel. Everyone else goes back into matchmaking.</td></tr>
       </table></div>
     </div>
@@ -327,16 +336,18 @@
   <ul>
     <li><strong>Reminders:</strong> 24 hours before (only if confirmed more than 24 hours ahead) and 1 hour before. They ask for no response.</li>
     <li><strong>Calendar:</strong> add the match to a phone calendar.</li>
+    <li><strong>Paid venues:</strong> every match is labelled Free or Paid. On a paid venue a "Who's booking?" line lets one player tap "I'll book the court" so everyone knows who is reserving it; Circuit books nothing and never claims a court is available. A venue without lights is never proposed for a match that would end after sunset.</li>
+    <li><strong>Optional check-in:</strong> if both players allow location around match time, a check-in lowers the result's review risk. It is evidence that phones were nearby, not proof the match was played, and other players see only the venue name. Players who decline can still play.</li>
     <li><strong>Circuit does not reserve courts.</strong> A suggested court is not a booking. Players get access and pay the venue themselves.</li>
-    <li><strong>Cancelling:</strong> a player who cannot make it cancels. Everyone is told <em>who</em> cancelled and the rest rejoin matchmaking. Late cancellations count toward the warning ladder (see Safety). For rain, a player cancels and everyone goes back into matchmaking (at most a warning for the canceller).</li>
+    <li><strong>Cancelling:</strong> a player who cannot make it cancels. Everyone is told <em>who</em> cancelled and the rest rejoin matchmaking. Cancelling within <strong>12 hours</strong> of the start is a late cancellation (see Safety for what that costs). For rain, a player cancels and everyone goes back into matchmaking (at most a warning for the canceller).</li>
     <li><strong>Scan to play</strong> matches start already Confirmed, because everyone is at the venue.</li>
   </ul>
 
   <h3>Scoring rules</h3>
   <div class="grid g3">
-    <div class="card"><h4>Every game is played</h4><p>Not best-of. 3 or 5 games, to 11 or 15, win by 2. The format is set in the proposal and visible before play.</p></div>
+    <div class="card"><h4>Every game is played</h4><p>Not best-of, so every game is rated. Games go to 11 or 15, win by 2. Singles and fixed doubles play 3 or 5 games. Rotating doubles plays 3 (each partner pairing once) or 6; rotating Mixed has two valid pairings, so 4 games. The format is set in the proposal and visible before play.</p></div>
     <div class="card"><h4>One reports, one confirms</h4><p>One player reports; someone on the opposing side confirms. Silence auto-confirms after 24 hours. Nobody can confirm their own report.</p></div>
-    <div class="card"><h4>48-hour deadline</h4><p>If nobody reports within 48 hours, the match ends as "No result". No rating change, no fabricated score.</p></div>
+    <div class="card"><h4>48-hour deadline</h4><p>If nobody reports within 48 hours of the start, the match ends as "No result". No rating change, no fabricated score. Reminders go to every player by push and email: 1 hour after the planned end, again at 24 hours, and a final warning 6 hours before the deadline. A no-show can still be reported inside the window.</p></div>
   </div>
 
   <div class="split flip">
@@ -393,7 +404,7 @@
   </svg></div>
   <ul>
     <li>While disputed, the result stays out of the rating. If players cannot agree in 24 hours, it is voided. A voided result is deleted from DUPR.</li>
-    <li>In doubles, once either opponent responds, the result stands.</li>
+    <li>In doubles, the first answer from the opposing side settles it: once either opponent confirms, the result stands and a later dispute from their partner does not count. Both sides reporting different scores opens a dispute automatically, and a dispute needs a reason.</li>
     <li>A confirmed result can be corrected for 7 days through a "Problem with this result" form. A correction replays later ratings, which can move players who were not in the match.</li>
   </ul>
 
@@ -406,7 +417,8 @@
 
   <h3>DUPR reporting</h3>
   <ul>
-    <li>Every confirmed result is sent to DUPR, <strong>one DUPR match per game</strong>, as a League match. It uses the same pipeline organizer ladders use (retries, receipts).</li>
+    <li>Every confirmed result is sent to DUPR, <strong>one DUPR match per game</strong>, in every format, as a League match (DUPR play type <code>LEAGUE</code>, which DUPR accepts from every partner; organizer ladders send the same). It uses the same pipeline organizer ladders use (retries, receipts), and every player links DUPR before playing.</li>
+    <li>Circuit checks DUPR access when a player joins. The owner can retry failed sends one at a time or in bulk and pause sends during a DUPR outage.</li>
     <li>A voided result is deleted from DUPR.</li>
     <li>Circuit never claims a DUPR change it has not received. The app distinguishes <em>pending</em>, <em>failed</em> and <em>synchronized</em>.</li>
     <li>Circuit's rating never changes anyone's DUPR rating, and DUPR never orders League standings.</li>
@@ -478,7 +490,9 @@
         <li><strong>Geographic:</strong> city → metro → state → global, using the player's declared home city (never live GPS). Example: Cedar Park → Austin area → Texas → League.</li>
         <li><strong>Venue boards:</strong> players with at least 2 confirmed League matches at that venue this season. Labelled "League players active at the venue", not "all members". Shows who plays there, never when.</li>
         <li><strong>Fixed-pair boards</strong> are separate, ordered by the Team rating.</li>
-        <li>A board needs at least 5 listed players to show. Boards refresh <strong>weekly</strong> (Sunday 11:59 PM Central snapshot).</li>
+        <li>A board needs at least 5 listed players to show (provisional players count); otherwise it says "Not enough players yet" with an invite prompt and shows the player's own season record. Boards refresh <strong>weekly</strong> (Sunday 11:59 PM Central snapshot) and are visible to signed-in League members in the app, not on the public website.</li>
+        <li>An established player is listed after their first confirmed match of the season; a provisional player after 3, marked <span class="m-pill amber">Provisional</span>. Once listed, a player stays listed all season. There is no rating decay, and each row shows matches played this season rather than marking anyone inactive.</li>
+        <li>Home city is declared and can change once every 90 days. Equal ratings share a rank (1, 1, 1, 4).</li>
         <li>Ranking depends on the pool's Circuit Rating only. Wins, win rate and point differential are shown as statistics but never rank anyone.</li>
       </ul>
       <h3>Player history and stats</h3>
@@ -490,7 +504,8 @@
         <li>Matches played and "member since" on match cards</li>
       </ul>
       <h3>Achievement pills</h3>
-      <p>Small badges on confirmed results such as <span class="m-pill">Comeback win</span> <span class="m-pill">11-0 pickle</span>, and week pills such as <span class="m-pill blue">Perfect games</span> or <span class="m-pill blue">Up 3</span>. They celebrate the player only, appear for confirmed results only, never trigger their own push notification, are removed if a correction changes the result, and shareable cards never show an opponent's name.</p>
+      <p>Small pills on confirmed results, shared with tournaments and ladders: <span class="m-pill">11-0 pickle</span> <span class="m-pill">Double pickle</span> <span class="m-pill">Comeback win</span> <span class="m-pill">Clutch</span> <span class="m-pill">Deuce drama</span> <span class="m-pill">Revenge</span> <span class="m-pill">Rivalry</span>. League-specific: <span class="m-pill">Upset win</span> (beat someone clearly higher rated; no number shown) and <span class="m-pill">Took a game off the #1</span>. Week pills: <span class="m-pill blue">Perfect games</span> <span class="m-pill blue">Undefeated</span> <span class="m-pill blue">Win streak</span> <span class="m-pill blue">Up 3</span> (rose 2+ places) <span class="m-pill blue">Season high</span>. Rank-based pills apply to any listed player, provisional or not, but a first appearance on a board or losing the Provisional label never counts as moving up.</p>
+      <p>Pills celebrate the player only, appear for confirmed results only (never a forfeit, pending, disputed or voided match), use no red or coral, never trigger their own push or email, show at most 5 per row, are recomputed if a correction changes the result, and shareable cards never name the opponent.</p>
     </div>
     <div class="phones">
       <figure class="fig">
@@ -533,10 +548,10 @@
   <h3>Seasons</h3>
   <div class="grid g3">
     <div class="card"><h4>Quarterly</h4><p>Spring, Summer, Fall, Winter. The League continues indefinitely, and players can join at any point in a quarter.</p></div>
-    <div class="card"><h4>Season 1 <span class="tag launch">Launch</span></h4><p>Season-end email and screen for everyone who played, plus <strong>badges</strong>: the season #1 badge goes only to an <em>established</em> player on a board with at least 8 players.</p></div>
-    <div class="card"><h4>Season Finals <span class="tag deferred">Season 2</span></h4><p>Asynchronous single-elimination, opt-in with a 6-match qualifying bar, up to 128 players, skill bands, anti-tanking rule, shorter rounds for big brackets. Not run if early health targets are missed.</p></div>
+    <div class="card"><h4>Season 1 <span class="tag launch">Launch</span></h4><p>Runs from launch to the end of that quarter if at least 6 weeks remain, otherwise through the next quarter. Season-end email and screen for everyone with a confirmed match, plus <strong>badges</strong>. Season #1 goes to an <em>established</em> player with at least 6 matches that season on a board of at least 8; if the top player is provisional, the highest established player with 6 matches gets it. Season completion is 8 confirmed matches. Founding Member is earned in Season 1; Recruiter once 3 invited friends have played a confirmed match.</p></div>
+    <div class="card"><h4>Season Finals <span class="tag deferred">Season 2</span></h4><p>One bracket per division (format plus category) per area. Players opt in; at the week-8 snapshot, established entries with at least 6 matches qualify, up to 128. Bracket size is the largest of 8, 16, 32, 64 or 128 the qualifiers fill, so no byes; fewer than 8 means no bracket. With 32 or more, entries split into skill bands of at least 16, using the higher of week-8 rating and season peak minus 0.15 so nobody tanks into a weaker band. Weeks 9–13; rounds last 7 days (5 days for 64 and 128). Rotating doubles has no Finals at launch. If a round match is not played by its deadline, the side that offered availability and responded advances; if both or neither did, the higher seed advances. Not run if early health targets are missed.</p></div>
   </div>
-  <p>When a season ends, standings freeze and the season board keeps showing where everyone finished. The next season's boards fill as players play. Ratings, history and badges carry over. There is no separate "leave the League" action; a player steps away by stopping matchmaking.</p>
+  <p>Seasons are Spring (Mar–May), Summer (Jun–Aug), Fall (Sep–Nov) and Winter (Dec–Feb). Results count by the date played: the season-end snapshot is taken 7 days after the last day, after report, confirmation and dispute windows have run, so a match played on the last day still counts. The League tab shows the final standings date in the season's last two weeks. When a season ends, standings freeze and the season board keeps showing where everyone finished. The next season's boards fill as players play. Ratings, history and badges carry over. There is no separate "leave the League" action; a player steps away by stopping matchmaking.</p>
 </section>
 
 <!-- ============ TEAMS & VENUES ============ -->
@@ -580,6 +595,7 @@
     <li>A venue listing promises nothing about access, membership or an open court. Players obtain access and pay the venue directly.</li>
     <li>Players can re-select venues using their current location ("Use my current location") without it becoming their home area.</li>
     <li>A <strong>popular times heat map</strong> helps players pick times. Circuit never invents popularity or available courts.</li>
+    <li>Every Match found and alternative shows <strong>Free</strong> or <strong>Paid</strong>. A paid venue's page adds a short note ("Non-members pay per court hour; reserve ahead") and never shows prices Circuit cannot keep current.</li>
     <li>Launch venues (such as Tejas Pickleball, Apex Cedar Park) are hand-entered after the owner verifies exact name, location, court count and free or paid status.</li>
   </ul>
 </section>
@@ -590,16 +606,17 @@
   <h2>Reviews, blocks, reports and sanctions</h2>
 
   <div class="grid g2">
-    <div class="card"><h4>Post-match reviews</h4><p>"How was the match?" Optional, short. Players rate attitude, communication and reliability (including being on time). This is conduct, never skill. Feedback is private; a player's own summary appears only after 5 reviews from 3 people. Reviews never change a rating, and there is no public conduct score.</p></div>
-    <div class="card"><h4>Mute, block, report</h4><p>Blocks exclude an opponent from future matching (max 5). Reports go straight to the owner, who is alerted on the phone for safety and image reports. Several reports about one match count as one incident.</p></div>
-    <div class="card"><h4>Cancellations and no-shows</h4><p>Escalating response: warning → 7-day pause → 30-day pause. Declined or expired offers are never counted as misconduct. A reported no-show stands after 48 hours if unchallenged.</p></div>
-    <div class="card"><h4>Appeals</h4><p>A restricted player sees the reason, the affected capability and how to appeal, within 14 days. Allegations and findings are kept distinct; nobody is banned automatically from star averages or dispute counts.</p></div>
+    <div class="card"><h4>Post-match reviews</h4><p>Optional, within 48 hours: thumbs up or down for on time, communication and sportsmanship, plus an optional comment. This is conduct, never skill. Feedback is private to Circuit; a player sees their own themes only after 5 reviews from 3 people. Reviews never change a rating, and there is no public conduct score.</p></div>
+    <div class="card"><h4>Mute, block, report</h4><p><strong>Mute</strong> hides a player's chat messages; it is unlimited and the other player is not told. <strong>Block</strong> also stops Circuit from matching you together, capped at 5 active blocks so it cannot be used to dodge strong players; blocks never change standings, and block patterns are flagged to the owner. Blocks apply to League only. <strong>Report</strong> goes to the owner's review queue, and the owner gets a phone alert the moment a report or an intimate-image removal request arrives.</p></div>
+    <div class="card"><h4>Cancellations and no-shows</h4><p>Cancelling within 12 hours of the start is late. A late cancellation or no-show counts once it is reported and either uncontested or upheld. The first is a warning; three in 60 days is a 7-day matchmaking pause; repeats after that are 30 days. A reported no-show stands if the player has not challenged it within 48 hours. Rained-out late cancellations earn at most a warning. Declined or expired offers are never counted as misconduct.</p></div>
+    <div class="card"><h4>Appeals</h4><p>A restricted player sees the reason, the affected capability and how to appeal. Appeals are accepted within 14 days and reviewed within 3 business days. Allegations and findings are kept distinct; nobody is banned automatically from star averages or dispute counts.</p></div>
   </div>
 
   <h3>Policies behind the product</h3>
   <ul>
     <li><strong>Gender eligibility:</strong> published rule following USA Pickleball policy, applied exactly as written.</li>
-    <li><strong>Photos:</strong> required, built once for all of Circuit (not League-only). Each uploaded photo is checked by an automated service; the privacy policy names this. Federal 48-hour removal for intimate imagery is honored.</li>
+    <li><strong>Photos:</strong> required, built once for all of Circuit (not League-only). Every new photo is checked on the server for nudity and hate imagery before it shows. A clean photo appears at once; a flagged or unscreenable one is held for the owner ("Your photo is being reviewed") while others see the player's initials. A reported photo is hidden at once, and the player can keep playing meanwhile. Federal 48-hour removal for intimate imagery is honored.</li>
+    <li><strong>Account deletion:</strong> in the app and from a web page. The profile and photo are deleted and past opponents see "Former player". League play never blocks deletion, except a 14-day wait while the account is on the owner's review list, and deletion never stops a void or the DUPR deletion that follows it. Results already at DUPR stay there until deleted through DUPR.</li>
     <li><strong>Chat:</strong> covered by reporting, mute, block, owner message hiding and a published support contact. A word filter is added only if App Review asks.</li>
     <li><strong>Apple UGC rules:</strong> report, block and moderation tools are in place.</li>
     <li><strong>Waiver and terms:</strong> release with express-negligence wording, liability cap, Texas law, arbitration and class-action waiver. No insurance (accepted).</li>
@@ -612,7 +629,7 @@
     <li>No precise home location, raw availability, private feedback, blocks, reports or rating numbers appear on any public read.</li>
     <li>Circuit never claims to know where a player is, never shows a live 0–0 or "playing now", and does not require continuous location.</li>
     <li>Names default to first name and last initial, with a "Show full name" setting.</li>
-    <li>Match chat closes 7 days after the settled result or cancellation. Evidence needed for reports and appeals is retained privately.</li>
+    <li>Match chat closes 7 days after the settled result or cancellation, and is retained privately for 180 days for disputes and reports.</li>
   </ul>
 </section>
 
@@ -640,7 +657,7 @@
   </table></div>
 
   <div class="grid g2">
-    <div class="card"><h4>Rules of restraint</h4><ul><li>No quiet-hours feature; players use Do Not Disturb. Only Match found has an overnight rule (none from 10 PM – 7 AM).</li><li>Snooze silences only the current group.</li><li>Notification groups and caps keep volume low; Match found has no extra cap because each search has at most one pending offer.</li></ul></div>
+    <div class="card"><h4>Rules of restraint</h4><ul><li>No quiet-hours feature; players use Do Not Disturb. Only Match found has an overnight rule (none from 10 PM – 7 AM).</li><li>Snooze applies only to Match found: while it lasts, no new offers are sent.</li><li>Caps: proposal progress at most once per proposal per 2 hours; play-again nudges at most 1 per 72 hours and 2 per 14 days; invite pushes 1 per 14 days; at most 2 non-match pushes a day; chat at most 6 pushes per thread per day.</li><li>Separate controls for Match found, Committed matches and results, Match chat, Weekly recap, Play-again nudges and League announcements. Account and safety notices cannot be turned off.</li><li>Notification groups and caps keep volume low; Match found has no extra cap because each search has at most one pending offer.</li></ul></div>
     <div class="card"><h4>Never sent</h4><ul><li>Claims about where a player is</li><li>A live 0–0 or "playing now"</li><li>Rank-drop pushes</li><li>SMS (not at launch)</li><li>A push just for earning a pill</li></ul></div>
   </div>
   <p>Android gets two notification channels, "Match updates" (high importance) and "League news", shipped in the same app update as the League.</p>
@@ -657,14 +674,23 @@
       <h3>Scan to play <span class="tag launch">Launch</span></h3>
       <p>Every League player has a permanent personal QR code. Three players at a park meet a fourth who has no account. The newcomer scans a code with the phone camera, installs the app and signs up (profile gender, age check, waiver, photo, DUPR link). The group plays rotating doubles and reports, and the match starts already Confirmed. The result is confirmed and every game goes to DUPR.</p>
       <ul>
-        <li>In-person only; it is <em>not</em> an instant-play queue.</li>
+        <li>In-person only; it is <em>not</em> an instant-play queue. Each scanned player confirms on their own phone; doubles needs all four.</li>
+        <li>The QR scans only while it is open on its owner's phone, so a screenshot does not work.</li>
+        <li>If a rotating-doubles fourth player does not show, the three present report the no-show and can scan in any eligible player to keep the match.</li>
+        <li>Circuit checks every player is a League member with a photo, no block between them and no restriction. A large skill gap shows a warning but is allowed.</li>
+        <li>A recruit needs profile gender, the age check, the waiver, a photo and a linked DUPR account before playing.</li>
         <li>Recruits finish the rest of setup after their first match.</li>
         <li>A friend-ring farming rating through Scan to play is an accepted risk, no worse than DUPR's own.</li>
       </ul>
       <h3>Invites</h3>
       <ul>
         <li>Shareable invite links open a public <strong>web invite page</strong> that explains the League and sends people into the app. It never offers play.</li>
-        <li>"Not enough players? Invite a friend" prompts name who is missing in thin pools.</li>
+        <li>After 24 hours without a match the empty state names who is missing ("2 more Women's singles players near your level would get you matches") with a Share button. Singles players also get a one-tap "Also search doubles".</li>
+        <li>While a doubles proposal waits for its last player, the others can share the open spot. The card shows format, day, venue and skill range, never names or photos.</li>
+        <li>The invite carries the inviter's code; the inviter is told when the friend joins, and for one week Circuit prefers pairing them if skill fits.</li>
+        <li>At most one share prompt per search and one invite push every 2 weeks.</li>
+        <li>People outside an open area can sign up, set a home area and see "7 players near you so far", invite friends and suggest venues. Circuit opens an area by hand once it has enough players and venues.</li>
+        <li>A "Circuit League plays here" QR poster is placed only with each venue's permission.</li>
         <li><span class="m-pill">Founding Member</span> and <span class="m-pill">Recruiter</span> badges reward early joiners and people who bring others in.</li>
         <li><strong>Ladder-member join path:</strong> existing organizer-ladder players get a direct route into the League, tracked as a sign-up source.</li>
       </ul>
@@ -707,19 +733,22 @@
   <div class="flow">
     <div class="step"><div class="n">1</div><b>Host sets up</b><span>"Wednesdays 6–8 PM, Mixed, 3 courts", books courts with the venue, Circuit approves.</span></div>
     <div class="arrow">→</div>
-    <div class="step"><div class="n">2</div><b>Players RSVP</b><span>Capped, with a waitlist.</span></div>
+    <div class="step"><div class="n">2</div><b>Players RSVP</b><span>Capped at courts × 4, with an automatic waitlist.</span></div>
     <div class="arrow">→</div>
-    <div class="step"><div class="n">3</div><b>RSVPs lock</b><span>Tuesday 6 PM. Provisional foursomes shown.</span></div>
+    <div class="step"><div class="n">3</div><b>RSVPs lock</b><span>24 hours before the start (Tuesday 6 PM for a Wednesday 6 PM night). Provisional foursomes shown.</span></div>
     <div class="arrow">→</div>
     <div class="step"><div class="n">4</div><b>On the night</b><span>Host records check-in. Foursomes re-form around absences.</span></div>
     <div class="arrow">→</div>
-    <div class="step end"><div class="n">5</div><b>Rounds</b><span>Report, confirm, winners move up a court.</span></div>
+    <div class="step end"><div class="n">5</div><b>Rounds</b><span>Each round is one rotating-doubles match (3 games to 11; 4 for Mixed). Report, confirm; top two move up a court, bottom two down.</span></div>
   </div>
   <ul>
     <li>The host is <em>not</em> an organizer: they record check-in and no-shows but cannot set results, ratings or eligibility, and never handle money through Circuit.</li>
     <li><strong>Players pay the venue directly</strong> for court time. No screen or record shows a court fee or payment.</li>
     <li><strong>The venue pitch:</strong> a free weekly league that fills off-peak courts with regulars who book and pay the venue directly. Indoor clubs often fill only 25–40% of off-peak hours; at Apex Cedar Park a non-member off-peak court is about $7.50 per player.</li>
-    <li>A host-reported no-show can be challenged; a host's weather cancellation is never counted late.</li>
+    <li>Hosts are any established League player or verified venue staff, and Circuit approves each night before it is listed. The host sets the category (or all three) and may set a DUPR range.</li>
+    <li>After the 24-hour lock, cancelling counts as a late cancellation. A host-reported no-show can be challenged, falls under the normal warning ladder, and repeat no-shows lose waitlist priority. If the host cancels for weather, it is never counted late.</li>
+    <li>Host rewards are non-monetary: a host badge and early RSVP. A venue may give hosts free court time on its own terms, outside Circuit. Circuit never pays hosts, takes commission, books courts or records court fees.</li>
+    <li>The page shows the host's first name and last initial, the window, Free or Paid, spots left and the RSVP count only once 5 players have RSVP'd. RSVP names are visible only to the night's players.</li>
     <li>Venue partner page and League discounts with venues follow once a season of activity exists.</li>
   </ul>
 
@@ -758,7 +787,8 @@
     <li><strong>Owner switches:</strong> a whole-League emergency gate, and a separate <em>matching hold</em> that stops new searches, matching and Match found delivery without stopping scoring, confirmation, disputes or DUPR sends. A hold never strands a played match.</li>
     <li><strong>Operators</strong> (authorized by a database table, not by screens): open areas, enter venues, approve League Nights, review flagged results, do recalibrations.</li>
     <li><strong>Launch week</strong> runs on database tools plus operator actions; a small phone-friendly <code>/ops/league</code> page follows.</li>
-    <li><strong>AI operations agent</strong> (after launch) proposes decisions in shadow mode with four tiers of authority; the owner is the only approver for sensitive tiers. Case evidence goes to an AI provider that may not train on it, and the privacy policy says so.</li>
+    <li><strong>At launch</strong> only the automatic-rules tier ships. The owner works everything else from one review queue, which also lets them hide a chat message, retry DUPR sends one at a time or in bulk and pause them during a DUPR outage, and receives Problem-with-this-result and Suggest-a-venue requests. Estimated effort without the agent: 8–15 hours a week in the first month, 5–9 after.</li>
+    <li><strong>AI operations agent</strong> (after launch) works in four tiers: <em>automatic rules, no AI</em> (offer expiry, auto-confirm, reminders, DUPR retries, snapshots, the warning and 7-day pause); <em>the agent decides with a recorded reason and an appeal</em> (obvious typo corrections, hiding abusive chat, clear venue requests, support answers); <em>the agent drafts, a person approves</em> (reported photos, contested no-shows and 30-day pauses, rating corrections, every appeal); and <em>a person only</em> (permanent bans, threats, child-safety reports). It starts in shadow mode for 2–4 weeks, and a category goes autonomous once its proposals match the person's decisions at least 95% of the time. Estimated effort with the agent: 3–5 hours a week for 200–500 players. Case evidence goes to an AI provider that may not train on it, and the privacy policy says so.</li>
   </ul>
 
   <h3>What automation does</h3>
