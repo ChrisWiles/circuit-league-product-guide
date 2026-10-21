@@ -238,9 +238,19 @@ tr:last-child td { border-bottom: 0; }
   border: 8px solid #fff; border-radius: 6px; outline: 1px solid #0002;
 }
 .caption { text-align: center; color: var(--ink-2); font-size: 0.8rem; width: 100%; margin-top: -6px; }
-.fig { text-align: center; }
+.fig { text-align: center; margin: 0; max-width: 100%; }
 .fig .phone { margin: 0 auto 8px; }
 .fig .caption { margin-top: 4px; }
+.review-date { color: var(--ink-2); font-size: 0.9rem; max-width: 760px; }
+.m-player { flex: 1; min-width: 0; }
+.m-rating { color: #1d4fa8; text-decoration: underline; text-underline-offset: 2px; }
+.m-own { background: #dff3e8; color: #0b3d28; padding: 7px 8px; }
+.m-pd { font-size: 11px; font-weight: 700; }
+.m-pd.positive { color: #0f7a4f; }
+.m-pd.negative { color: #c2410c; }
+.m-story-progress { display: flex; gap: 4px; margin: 0 0 18px; }
+.m-story-progress i { flex: 1; height: 3px; border-radius: 2px; background: #3ecf8e; }
+.m-story-progress i.pending { background: #ffffff33; }
 
 /* Flow diagrams */
 .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 20px 0; }
